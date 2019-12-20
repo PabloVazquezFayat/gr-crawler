@@ -2,7 +2,7 @@ const glob = require('glob');
 const imagesToPdf = require('images-to-pdf');
 
 //IMPORT CRAWLER METHODS
-const lac = require('./functions/lac/');
+const lacNav = require('./functions/lac/');
 
 const imagesReady = {
   aus: false,
@@ -36,7 +36,7 @@ function checkImages(data){
         clearInterval(interval);
       } 
 
-      if(escapeCounter === 60){
+      if(escapeCounter === 1){
         reject('No images found');
         clearInterval(interval);
       }
@@ -55,16 +55,33 @@ function setImageReady(market){
 }
 
 //LAC
-lac(
-  {
-    url: 'https://www.royalcaribbean.com/lac/es/cruises/',
-    desktopImagePath: 'img/lac/desktop/',
-    mobileImagePath: 'img/lac/mobile/',
-    page: 'cruise-search',
-    market: 'lac',
-    selector: '.itinerary-card-component',
-  },
-  setImageReady
+// lac(
+//   {
+//     url: 'https://www.royalcaribbean.com/lac/es/cruises/',
+//     desktopImagePath: 'img/lac/desktop/',
+//     mobileImagePath: 'img/lac/mobile/',
+//     page: 'cruise-search',
+//     market: 'lac',
+//     selector: '.itinerary-card-component',
+//   },
+//   setImageReady
+// );
+
+lacNav({
+  url: 'https://www.royalcaribbean.com/gbr/en?country=GBR',
+  desktopImagePath: 'img/lac/desktop/',
+  market: 'lac',
+  click:{
+    button: '#heroBannerCTAButton',
+    itinerary: '.itinerary-card-component',
+    fare: '.itinerary-sailing-saildate',
+    shield: '[data-open="modal"]',
+    continue: '.continue-button',
+    stateroom: '#stateroom-continue',
+    occupancy: '#occupancy-continue',
+    applyCode: '.button.center'
+  }
+}
 );
 
 //LAC BOOKING + EXIT-POPUP
